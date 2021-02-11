@@ -1,0 +1,6 @@
+Mobility|109|132|Reduced ability to walk|Objective|Patient|0
+Action|128|132|walk|d450|1
+Mobility|161|200|prevents her from standing for too long|Objective|Patient|0
+Action|179|187|standing|d415|1
+Mobility|203|234|Difficulty with locomotion: yes|Objective|Patient|0
+Action|219|229|locomotion|d450|0
