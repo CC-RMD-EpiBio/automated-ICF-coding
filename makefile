@@ -295,6 +295,25 @@ run_bert_finetune:
 
 
 
+#### Lesk baseline (candidate selection) ################################
+
+run_lesk_baseline:
+	@if [ -z "${DATASET}" ]; then echo "DATASET must be specified"; exit; fi; \
+	if [ -z "${MAINONLY}" ]; then \
+		MAINONLYFLAG=; \
+		MAINONLYLBL=; \
+	else \
+		MAINONLYFLAG="--main-only"; \
+		MAINONLYLBL=.main_only; \
+	fi; \
+	${PY} -m experiments.candidate_selection.lesk_baseline \
+		${DATA}/${DATASET}.SpaCy.mentions \
+		--definitions ${DATA}/ICF-Mobility_definitions.txt \
+		$${MAINONLYFLAG} \
+		-l ${DATA}/${DATASET}.Lesk_experiment$${MAINONLYLBL}.log
+
+
+
 
 
 #########################################################################
@@ -343,3 +362,24 @@ analyze_bert_finetune_predictions:
 		${DATA}/${DATASET}.SpaCy.mentions \
 		${DATA}/BERT_FT_baseline/$${MODEL}.compiled_output.predictions \
 		-l ${DATA}/BERT_FT_baseline/$${MODEL}.compiled_output.evaluation.log
+
+
+
+#### Lesk baseline (candidate selection) ################################
+		
+analyze_lesk_baseline:
+	@if [ -z "${DATASET}" ]; then echo "DATASET must be specified"; exit; fi; \
+	if [ -z "${MAINONLY}" ]; then \
+		MAINONLYFLAG=; \
+		MAINONLYLBL=; \
+	else \
+		MAINONLYFLAG="--main-only"; \
+		MAINONLYLBL=.main_only; \
+	fi; \
+	PREDSF=$$(ls ${DATA}/${DATASET}.Lesk_experiment$${MAINONLYLBL}.predictions* | grep -v per_code_performance | sort | tail -n 1); \
+	${PY} -m analysis.per_code_performance \
+		${DATA}/${DATASET}.SpaCy.mentions \
+		$${PREDSF} \
+		--no-scores \
+		--cross-validation-splits ${DATA}/cross_validation_splits/${DATASET} \
+		-l $${PREDSF}.per_code_performance
