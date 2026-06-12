@@ -1,4 +1,11 @@
 # Automated coding for ICF Mobility activities
+
+## Update as of June 2026
+This repository has been archived and is no longer maintained.
+The code is provided for historical reference and may contain unpatched or unknown vulnerabilities.
+It should not be used in production systems.
+
+## Background
 Automatically assigning 3-digit ICF codes to functional activity descriptions
 
 This open-source software package implements a variety of methods for automatically coding descriptions of mobility activities in text documents, as described in the following paper:
